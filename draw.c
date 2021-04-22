@@ -62,7 +62,7 @@ void add_sphere(struct matrix *edges,
                 double r, int step)
 {
 
-  struct matrix *points = generate_sphere(cx, cy, cz, r, step/3.2);
+  struct matrix *points = generate_sphere(cx, cy, cz, r, step / 3.2);
   int i;
 
   for (i = 0; i < points->lastcol; i += 1)
@@ -134,7 +134,14 @@ void add_torus(struct matrix *edges,
                double cx, double cy, double cz,
                double r1, double r2, int step)
 {
-  return;
+  struct matrix *points = generate_torus(cx,cy,cz,r1,r2,step/4);
+  int i;
+
+  for (i = 0; i < points->lastcol; i += 1)
+  {
+    add_edge(edges, points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
+  }
+  //print_matrix(edges);
 }
 
 /*======== void generate_torus() ==========
@@ -153,7 +160,31 @@ void add_torus(struct matrix *edges,
 struct matrix *generate_torus(double cx, double cy, double cz,
                               double r1, double r2, int step)
 {
-  return NULL;
+  struct matrix *n = new_matrix(4, 4);
+  double phi;
+  double theta;
+  double rot;
+  double cir;
+  double x;
+  double y;
+  double z;
+
+  for (phi = 1; phi <= step; phi++)
+  {
+    for (theta = 1; theta <= step; theta++)
+    {
+      rot = (double)phi / step;
+      cir = (double)theta / step;
+
+      x = cos(2 * M_PI * rot) * (r * cos(2 * M_PI * cir) + r2) + cx;
+      y = r1 * sin(2 * M_PI * cir) + cy;
+      z = (-1 * sin(2 * M_PI * rot)) * (r1 * cos(2 * M_PI * cir) + r2) + cz;
+
+      add_point(n, x, y, z);
+    }
+  }
+
+  return n;
 }
 
 /*======== void add_circle() ==========
