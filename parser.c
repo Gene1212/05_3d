@@ -119,9 +119,18 @@ void parse_file(char *filename,
       add_box(edges, xvals[0], yvals[0], zvals[0], xvals[1], yvals[1], zvals[1]);
     }
 
-    else if (strncmp(line, "clear", strlen(line)) == 0){
+    else if (strncmp(line, "sphere", strlen(line)) == 0)
+    {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf", xvals, yvals, zvals, r);
+
+      add_sphere(edges, xvals[0], yvals[0], zvals[0], r, step);
+    }
+
+    else if (strncmp(line, "clear", strlen(line)) == 0)
+    {
       free_matrix(edges);
-      edges = new_matrix(4,4);
+      edges = new_matrix(4, 4);
     }
 
     else if (strncmp(line, "hermite", strlen(line)) == 0 ||
