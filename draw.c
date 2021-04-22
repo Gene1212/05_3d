@@ -62,14 +62,15 @@ void add_sphere(struct matrix *edges,
                 double r, int step)
 {
 
-  struct matrix *points = generate_sphere(cx, cy, cz, r, step);
+  struct matrix *points = generate_sphere(cx, cy, cz, r, step/3.2);
   int i;
 
   for (i = 0; i < points->lastcol; i += 1)
   {
-    add_edge(edges, points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i] + 1, points->m[1][i] + 1, points->m[2][i] + 1);
+    add_edge(edges, points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
+    //printf("%lf %lf %lf\n",points->m[0][i], points->m[1][i], points->m[2][i]);
   }
-
+  //print_matrix(edges);
 }
 
 /*======== void generate_sphere() ==========
